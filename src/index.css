@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+:root {
+  /* Base */
+  --background: #FFFFFF;
+  --border: #D5D9D9;
+  --inside: #F0F2F2;
+  --text: #0F1111;
+
+  /* Accents */
+  --primary: #FF9900;
+  --primary-hover: #FA8900;
+  --secondary: #232F3E;
+  --link: #007185;
+  --link-hover: #C7511F;
+  --cta: #FFD814;
+  --cta-hover: #F7CA00;
+  --success: #067D62;
+  --error: #CC0C39;
+  --rating: #FF9900;
+  --badge: #CC0C39;
+
+  /* Headers */
+  --header-main-bg: #232F3E;
+  --header-sub-bg: #37475A;
+  --header-text: #FFFFFF;
+  --header-accent: #FF9900;
+  --header-search-bg: #F0F2F2;
+  --header-search-border: #FF9900;
+  --header-link-active: #FF9900;
+}
+
+/* Layout */
+/* html, body, #root {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+} */

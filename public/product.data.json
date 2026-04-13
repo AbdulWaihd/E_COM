@@ -1,0 +1,249 @@
+{
+  "products": [
+    {
+      "id": "PROD-001",
+      "title": "Wireless Bluetooth Headphones",
+      "category": "Electronics",
+      "brand": "SoundMax",
+      "original_price": 4999,
+      "discounted_price": 2999,
+      "rating": 4.5,
+      "stock": 120
+    },
+    {
+      "id": "PROD-002",
+      "title": "Smart Watch Series 7",
+      "category": "Electronics",
+      "brand": "TechFit",
+      "original_price": 8999,
+      "discounted_price": 6499,
+      "rating": 4.3,
+      "stock": 80
+    },
+    {
+      "id": "PROD-003",
+      "title": "Gaming Mouse RGB",
+      "category": "Electronics",
+      "brand": "HyperClick",
+      "original_price": 1999,
+      "discounted_price": 1299,
+      "rating": 4.6,
+      "stock": 200
+    },
+    {
+      "id": "PROD-004",
+      "title": "Mechanical Keyboard",
+      "category": "Electronics",
+      "brand": "KeyPro",
+      "original_price": 3999,
+      "discounted_price": 2799,
+      "rating": 4.7,
+      "stock": 150
+    },
+    {
+      "id": "PROD-005",
+      "title": "USB-C Fast Charger",
+      "category": "Electronics",
+      "brand": "ChargeX",
+      "original_price": 999,
+      "discounted_price": 699,
+      "rating": 4.4,
+      "stock": 300
+    },
+    {
+      "id": "PROD-006",
+      "title": "Noise Cancelling Earbuds",
+      "category": "Electronics",
+      "brand": "SoundMax",
+      "original_price": 5999,
+      "discounted_price": 3999,
+      "rating": 4.5,
+      "stock": 140
+    },
+    {
+      "id": "PROD-007",
+      "title": "Laptop Cooling Pad",
+      "category": "Electronics",
+      "brand": "CoolTech",
+      "original_price": 1499,
+      "discounted_price": 999,
+      "rating": 4.2,
+      "stock": 220
+    },
+    {
+      "id": "PROD-008",
+      "title": "Portable SSD 1TB",
+      "category": "Electronics",
+      "brand": "DataFast",
+      "original_price": 10999,
+      "discounted_price": 8499,
+      "rating": 4.8,
+      "stock": 60
+    },
+    {
+      "id": "PROD-009",
+      "title": "4K Action Camera",
+      "category": "Electronics",
+      "brand": "CamGo",
+      "original_price": 12999,
+      "discounted_price": 9999,
+      "rating": 4.3,
+      "stock": 45
+    },
+    {
+      "id": "PROD-010",
+      "title": "Bluetooth Speaker",
+      "category": "Electronics",
+      "brand": "BoomBox",
+      "original_price": 2999,
+      "discounted_price": 1999,
+      "rating": 4.4,
+      "stock": 170
+    },
+
+    {
+      "id": "PROD-011",
+      "title": "Men's Casual T-Shirt",
+      "category": "Fashion",
+      "brand": "UrbanWear",
+      "original_price": 799,
+      "discounted_price": 499,
+      "rating": 4.2,
+      "stock": 500
+    },
+    {
+      "id": "PROD-012",
+      "title": "Women's Summer Dress",
+      "category": "Fashion",
+      "brand": "StyleHub",
+      "original_price": 1999,
+      "discounted_price": 1299,
+      "rating": 4.6,
+      "stock": 250
+    },
+    {
+      "id": "PROD-013",
+      "title": "Denim Jeans",
+      "category": "Fashion",
+      "brand": "DenimCo",
+      "original_price": 2499,
+      "discounted_price": 1799,
+      "rating": 4.3,
+      "stock": 180
+    },
+    {
+      "id": "PROD-014",
+      "title": "Running Shoes",
+      "category": "Fashion",
+      "brand": "RunX",
+      "original_price": 4999,
+      "discounted_price": 3499,
+      "rating": 4.7,
+      "stock": 130
+    },
+    {
+      "id": "PROD-015",
+      "title": "Leather Wallet",
+      "category": "Fashion",
+      "brand": "LuxCarry",
+      "original_price": 1499,
+      "discounted_price": 999,
+      "rating": 4.5,
+      "stock": 210
+    },
+
+    {
+      "id": "PROD-016",
+      "title": "Office Chair Ergonomic",
+      "category": "Furniture",
+      "brand": "ComfortSit",
+      "original_price": 8999,
+      "discounted_price": 6999,
+      "rating": 4.6,
+      "stock": 75
+    },
+    {
+      "id": "PROD-017",
+      "title": "Wooden Study Table",
+      "category": "Furniture",
+      "brand": "HomeCraft",
+      "original_price": 11999,
+      "discounted_price": 8999,
+      "rating": 4.4,
+      "stock": 50
+    },
+    {
+      "id": "PROD-018",
+      "title": "Bookshelf 5 Tier",
+      "category": "Furniture",
+      "brand": "ShelfPro",
+      "original_price": 4999,
+      "discounted_price": 3499,
+      "rating": 4.3,
+      "stock": 90
+    },
+
+    {
+      "id": "PROD-019",
+      "title": "Non-Stick Cookware Set",
+      "category": "Home & Kitchen",
+      "brand": "CookEasy",
+      "original_price": 3999,
+      "discounted_price": 2799,
+      "rating": 4.5,
+      "stock": 160
+    },
+    {
+      "id": "PROD-020",
+      "title": "Electric Kettle",
+      "category": "Home & Kitchen",
+      "brand": "HeatPro",
+      "original_price": 1999,
+      "discounted_price": 1299,
+      "rating": 4.4,
+      "stock": 200
+    },
+
+    {
+      "id": "PROD-021",
+      "title": "Fitness Dumbbells Set",
+      "category": "Sports",
+      "brand": "FitLife",
+      "original_price": 2999,
+      "discounted_price": 1999,
+      "rating": 4.6,
+      "stock": 110
+    },
+    {
+      "id": "PROD-022",
+      "title": "Yoga Mat",
+      "category": "Sports",
+      "brand": "FlexFit",
+      "original_price": 999,
+      "discounted_price": 699,
+      "rating": 4.5,
+      "stock": 300
+    },
+
+    {
+      "id": "PROD-023",
+      "title": "Backpack Laptop Bag",
+      "category": "Accessories",
+      "brand": "CarryPro",
+      "original_price": 2499,
+      "discounted_price": 1699,
+      "rating": 4.4,
+      "stock": 210
+    },
+    {
+      "id": "PROD-024",
+      "title": "Sunglasses UV Protection",
+      "category": "Accessories",
+      "brand": "SunStyle",
+      "original_price": 1499,
+      "discounted_price": 999,
+      "rating": 4.3,
+      "stock": 260
+    }
+  ]
+}
