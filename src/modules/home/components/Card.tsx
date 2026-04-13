@@ -55,7 +55,7 @@ const Card = ({
                 </p>
 
                 <p className="text-xs font-medium" style={{ color: "var(--success)" }}>
-                    {stock > 0 ? "In Stock" : "Out of Stock"}
+                    {stock > 0 ? "In Stock" : <span style={{ color: "var(--error)" }}>Out of Stock</span>}
                 </p>
 
                 {/* <button
