@@ -28,7 +28,18 @@
   --header-search-bg: #F0F2F2;
   --header-search-border: #FF9900;
   --header-link-active: #FF9900;
+
+    /* Footer */
+  --footer-bg: #232F3E;
+  --footer-text: #FFFFFF;
+  --footer-accent: #FF9900;
+  --footer-muted: #D5D9D9;
+  --footer-hover: #FFFFFF;
+  --footer-border: #37475A;
 }
+
+
+
 
 /* Layout */
 /* html, body, #root {

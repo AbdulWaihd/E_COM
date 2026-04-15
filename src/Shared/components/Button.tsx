@@ -5,8 +5,7 @@ export interface ButtonProps {
     className?: string;
     style?: React.CSSProperties;
 
-    onMouseEnter?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-    onMouseLeave?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+
 }
 
 const Button = ({ btnTxt = "Click Me", onClick, type = "submit", className = "", style = {} }: ButtonProps) => {

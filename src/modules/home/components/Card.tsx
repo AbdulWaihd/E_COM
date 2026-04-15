@@ -1,78 +1,128 @@
-
+import { useState } from "react";
 import Button from "../../../Shared/components/Button";
+import { Heart, Star } from "lucide-react";
+
 export interface CardProps {
-    id: number;
-    title: string;
+    id?: number;
+    name: string;
+    slug?: string;
     category: string;
     brand: string;
-    original_price: number;
-    discounted_price: number;
-    rating: number;
-    stock: number;
+    price: number;
+    oldPrice: number;
+    isCallForPricing?: boolean;
+    thumbnailUrl?: string;
+    reviewsCount?: number;
+    ratingAverage: number;
+    stockQuantity: number;
     description?: string;
-    image?: string;
+
 }
 
 const Card = ({
-    title,
-    original_price,
-    discounted_price,
+    name,
+    price,
+    oldPrice,
     description,
-    image,
-    rating,
-    stock
+    thumbnailUrl,
+    ratingAverage,
+    stockQuantity
 }: CardProps) => {
+    const [liked, setLiked] = useState(false);
+
     return (
         <div
-            className="flex flex-col rounded-lg overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-300"
-            style={{ backgroundColor: "var(--background)", border: "2px solid var(--border)" }}
+            className="relative flex flex-col overflow-hidden transition-shadow duration-300 rounded-lg cursor-pointer group hover:shadow-md"
+            style={{
+                backgroundColor: "var(--background)",
+                // border: "2px solid var(--border)",
+            }}
         >
-            <img
-                src={image || "/placeholder.png"}
-                alt={title}
-                className="w-full h-48 object-contain p-4"
-                style={{ backgroundColor: "var(--inside)" }}
-            />
+            {/* Image */}
+            <div className="w-full overflow-hidden aspect-square">
+                <img
+                    src={thumbnailUrl || "/placeholder.png"}
+                    alt={name}
+                    className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-110"
+                />
+            </div>
 
+            {/* Wishlist Icon */}
+            <button
+                onClick={() => setLiked(!liked)}
+                className="absolute z-10 p-1 bg-white rounded-full shadow top-3 right-3"
+            >
+                <Heart
+                    className={`w-5 h-5 transition ${liked ? "text-red-500 fill-red-500" : "text-gray-400"
+                        }`}
+                />
+            </button>
+
+            {/* Content */}
             <div className="flex flex-col gap-2 p-4">
-                <h2 className="text-sm font-medium line-clamp-2" style={{ color: "var(--text)" }}>
-                    {title}
+                <h2
+                    className="text-sm font-medium line-clamp-2"
+                    style={{ color: "var(--text)" }}
+                >
+                    {name}
                 </h2>
 
-                <p className="text-xs" style={{ color: "var(--rating)" }}>
-                    {rating}/5
-                </p>
+                {/* <p className="text-xs" style={{ color: "var(--rating)" }}>
+                    {Math.round(ratingAverage)}/5
+                </p> */}
 
-                <p className="text-xs line-clamp-2" style={{ color: "var(--text)" }}>
+
+                <div className="flex items-center gap-1">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                        <Star
+                            key={i}
+                            className={`w-4 h-4 ${i < Math.floor(ratingAverage)
+                                    ? "text-yellow-400 fill-yellow-400"
+                                    : "text-gray-300"}`}
+
+                    />
+                    ))}
+
+                </div>
+
+                <p
+                    className="text-xs line-clamp-2"
+                    style={{ color: "var(--text)" }}
+                >
                     {description}
                 </p>
 
                 <p className="text-xl font-bold" style={{ color: "var(--text)" }}>
-                    ₹{discounted_price}
-                    <span className="text-sm line-through ml-2 text-gray-400">
-                        ₹{original_price}
+                    ₹{price}
+                    <span className="ml-2 text-sm text-gray-400 line-through">
+                        ₹{oldPrice}
                     </span>
                 </p>
 
-                <p className="text-xs font-medium" style={{ color: "var(--success)" }}>
-                    {stock > 0 ? "In Stock" : <span style={{ color: "var(--error)" }}>Out of Stock</span>}
+                <p
+                    className="text-xs font-medium"
+                    style={{ color: "var(--success)" }}
+                >
+                    {stockQuantity > 0 ? (
+                        "In Stock"
+                    ) : (
+                        <span style={{ color: "var(--error)" }}>
+                            Out of Stock
+                        </span>
+                    )}
                 </p>
 
-                {/* <button
-                    className="w-full mt-2 py-2 px-4 rounded-full text-sm font-semibold cursor-pointer border-none"
-                    style={{ backgroundColor: "var(--cta)", color: "var(--text)" }}
-                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "var(--cta-hover)")}
-                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "var(--cta)")}
-                >
-                    Add to Cart
-                </button> */}
-
-                <Button
-                    btnTxt="Add to Cart"
-                    className="w-full mt-2 py-2 px-4 rounded-full text-sm font-semibold cursor-pointer border-none bg-[var(--cta)] text-[var(--text)] hover:bg-[var(--cta-hover)]"
-                />
-
-
+                {/* Add to Cart (hover only) */}
+                <div className="hidden transition-all duration-300 group-hover:block">
+                    <Button
+                        btnTxt="Add to Cart"
+                        className="w-full px-4 py-2 mt-2 text-sm font-semibold border-none rounded-full cursor-pointer"
+                        style={{
+                            backgroundColor: "var(--cta)",
+                            color: "var(--text)",
+                        }}
+                    />
+                </div>
             </div>
         </div>
     );
