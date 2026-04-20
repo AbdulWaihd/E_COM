@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { SearchBarInput } from "./../input-forms/SearchBarInput";
+import { Search } from "lucide-react";
 
 interface Product {
     id: string;

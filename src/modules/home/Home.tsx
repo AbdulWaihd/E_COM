@@ -45,41 +45,59 @@ const Home = () => {
         : cards;
 
     return (
-        <div className="p-6">
+        <main className="max-w-7xl mx-auto px-6 py-10">
+            {/* Page Header */}
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+                <div className="flex flex-col gap-2">
+                    <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+                        {query ? `Search results for "${query}"` : "Discover our collection"}
+                    </h1>
+                    <p className="text-slate-500 text-sm max-w-lg">
+                        Explore the latest arrivals and curated electronics, fashion, and lifestyle essentials.
+                    </p>
+                </div>
+                <div className="flex items-center gap-2 text-sm font-semibold text-slate-400">
+                    <span className="text-slate-900">{filteredCards.length}</span>
+                    <span>Products found</span>
+                </div>
+            </div>
     
             {loading ? (
-                <p className="text-sm text-center">Loading...</p>
-            ) : (
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-
-                    {/* No results */}
-                    {filteredCards.length === 0 ? (
-                        <p
-                            className="col-span-4 text-sm text-center"
-                            style={{ color: "var(--text)" }}
-                        >
-                            No products found.
-                        </p>
-                    ) : (
-                        filteredCards.map((item) => (
-                            <Card
-                                key={item.id}
-                                id={item.id}
-                                name={item.name}
-                                category={item.category}
-                                brand={item.brand}
-                                oldPrice={item.oldPrice}
-                                price={item.price}
-                                ratingAverage={item.ratingAverage}
-                                stockQuantity={item.stockQuantity}
-                                description={item.description}
-                                thumbnailUrl={item.thumbnailUrl}
-                            />
-                        ))
-                    )}
+                <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+                    {[...Array(8)].map((_, i) => (
+                        <div key={i} className="animate-pulse flex flex-col gap-4">
+                            <div className="aspect-[4/5] bg-slate-100 rounded-3xl" />
+                            <div className="h-4 bg-slate-100 rounded-lg w-3/4" />
+                            <div className="h-4 bg-slate-100 rounded-lg w-1/2" />
+                        </div>
+                    ))}
                 </div>
+            ) : (
+                <>
+                    {/* Empty State */}
+                    {filteredCards.length === 0 ? (
+                        <div className="flex flex-col items-center justify-center py-24 text-center">
+                            <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-6">
+                                <span className="text-4xl">🔍</span>
+                            </div>
+                            <h2 className="text-xl font-bold text-slate-900 mb-2">No products found</h2>
+                            <p className="text-slate-500 text-sm max-w-xs">
+                                We couldn't find anything matching your search. Try different keywords or browse our categories.
+                            </p>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+                            {filteredCards.map((item) => (
+                                <Card
+                                    key={item.id}
+                                    {...item}
+                                />
+                            ))}
+                        </div>
+                    )}
+                </>
             )}
-        </div>
+        </main>
     );
 };
 

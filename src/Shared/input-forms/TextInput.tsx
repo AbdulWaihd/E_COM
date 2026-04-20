@@ -24,7 +24,7 @@ const TextInput = ({ label, type = "text", id, placeholder, ...props }: TextInpu
                     id={id}
                     placeholder={placeholder}
                     {...props}
-                    className="outline outline-1 pr-8 px-2 py-2 w-full rounded-md"
+                    className="w-full px-2 py-2 pr-8 rounded-md outline-1"
                 />
 
 

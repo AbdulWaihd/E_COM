@@ -1,3 +1,4 @@
+import { Search } from "lucide-react";
 import "../../index.css";
 
 interface SearchBarInputProps {
@@ -16,7 +17,7 @@ const SearchBarInput = ({
     onKeyDown,
 }: SearchBarInputProps) => {
     return (
-        <div className="relative w-full">
+        <div className="relative w-full group">
             <input
                 id={id}
                 type="text"
@@ -24,17 +25,15 @@ const SearchBarInput = ({
                 value={value}
                 onChange={onChange}
                 onKeyDown={onKeyDown}
-                className="w-full px-4 py-2 pr-10 rounded-md outline outline-1 focus:outline-2"
+                className="w-full px-6 py-2.5 pr-12 text-sm transition-all bg-slate-100 border-none rounded-full outline-none ring-0 placeholder:text-slate-400 focus:bg-white focus:ring-2 focus:ring-indigo-500/20 focus:shadow-sm"
                 style={{
-                    backgroundColor: "var(--header-search-bg)",
                     color: "var(--text)",
                 }}
             />
 
-            {/*  Search Icon (optional but recommended) */}
-            <span className="absolute text-sm -translate-y-1/2 right-3 top-1/2 opacity-60">
-
-            </span>
+            <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
+                <Search size={18} className="text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
+            </div>
         </div>
     );
 };

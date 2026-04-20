@@ -1,24 +1,31 @@
+import React from "react";
+
 export interface ButtonProps {
     btnTxt?: string;
-    onClick?: () => void;
+    onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
     type?: "button" | "submit" | "reset";
     className?: string;
     style?: React.CSSProperties;
-
-
+    children?: React.ReactNode;
 }
 
-const Button = ({ btnTxt = "Click Me", onClick, type = "submit", className = "", style = {} }: ButtonProps) => {
+const Button = ({ 
+    btnTxt, 
+    onClick, 
+    type = "button", 
+    className = "", 
+    style = {},
+    children 
+}: ButtonProps) => {
     return (
         <button
             onClick={onClick}
             type={type}
-            className={`mt-3 px-4 py-2 rounded-md cursor-pointer border-none ${className}`}
+            className={`inline-flex items-center justify-center px-6 py-2.5 rounded-full font-semibold transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:pointer-events-none ${className}`}
             style={style}
         >
-            {btnTxt}
+            {children || btnTxt}
         </button>
     )
 }
-
 export default Button;
