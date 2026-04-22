@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import api from '../../api/api';
 import Button from '../../Shared/components/Button';
 import { Heart, Trash2, ShoppingCart } from 'lucide-react';
-
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 interface WishlistItem {
-    id:number;
+    id: number;
     productId: number;
     quantity: number;
     productName: string;
@@ -23,7 +24,7 @@ const Wishlist = () => {
     useEffect(() => {
         const fetchWishlist = async () => {
             try {
-                const response = await api.get('/api/wishList/PrivateList');
+                const response = await api.get('/cart/list');
                 setItems(response.data?.items?.data || []);
             } catch (error) {
                 console.error('Failed to fetch wishlist', error);
@@ -38,14 +39,14 @@ const Wishlist = () => {
     const handleRemove = async (id: number) => {
         try {
             await api.delete(`/api/wishList/RemoveItem?id=${id}`);
-            setItems(prev => prev.filter(item => item.id !== id));
+            setItems(currItems => currItems.filter(item => item.id !== id));
         } catch (error) {
             console.error('Failed to remove item', error);
         }
     };
 
     return (
-        <main className="px-6 py-10 mx-auto max-w-7xl">
+        <main className="px-6 py-10 mx-auto ">
             {/* Page Header */}
             <div className="flex flex-col justify-between gap-6 mb-12 md:flex-row md:items-end">
                 <div className="flex flex-col gap-2">
@@ -67,10 +68,10 @@ const Wishlist = () => {
                 /* Loading Skeleton */
                 <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
                     {[...Array(4)].map((_, i) => (
-                        <div key={i} className="flex flex-col gap-4 animate-pulse">
-                            <div className="aspect-[4/5] bg-slate-100 rounded-3xl" />
-                            <div className="w-3/4 h-4 rounded-lg bg-slate-100" />
-                            <div className="w-1/2 h-4 rounded-lg bg-slate-100" />
+                        <div key={i} className="flex flex-col gap-4">
+                            <Skeleton height={250} borderRadius={24} />
+                            <Skeleton height={16} width="75%" borderRadius={8} />
+                            <Skeleton height={16} width="50%" borderRadius={8} />
                         </div>
                     ))}
                 </div>
@@ -158,7 +159,7 @@ const Wishlist = () => {
                                                 }}
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                            
+
                                                 }}
                                             >
                                                 <ShoppingCart size={16} />

@@ -8,6 +8,7 @@ import SignUp from './auth/components/SignUp'
 import LogIn from './auth/components/LogIn'
 import ProductDetails from './modules/products/ProductDetails'
 import Wishlist from './modules/wishlist/Wishlist'
+import Cart from './modules/cart/Cart'
 import { ProtectedRoutes } from './routes/ProtectedRoutes'
 import { PublicRoutes } from './routes/PublicRoutes'
 function App() {
@@ -25,6 +26,7 @@ function App() {
             <Route path="/" element={<Home />} />       
             <Route path='/product/:id' element={<ProductDetails/>}/>  
             <Route path='/wishlist' element={<Wishlist/>}/>
+            <Route path='/cart' element={<Cart/>}/>
             </Route>
 
             <Route path="*" element={<NotFound />} />

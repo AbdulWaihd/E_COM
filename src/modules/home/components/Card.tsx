@@ -3,9 +3,9 @@ import Button from "../../../Shared/components/Button";
 import { Heart, Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { addToWishlist } from "../../../utils/wishlist";
-
+import { addToCart } from "../../../utils/cart";
 export interface CardProps {
-    id?: string;
+    id?: number;
     name: string;
     slug?: string;
     category: string;
@@ -18,6 +18,7 @@ export interface CardProps {
     ratingAverage: number;
     stockQuantity: number;
     description?: string;
+    variationName: string
 }
 
 const Card = ({
@@ -29,8 +30,10 @@ const Card = ({
     thumbnailUrl,
     ratingAverage,
     stockQuantity,
+    variationName
 }: CardProps) => {
     const [liked, setLiked] = useState(false);
+    const [addCart, setAddCart] = useState(false);
     const navigate = useNavigate();
 
     const handleClick = () => {
@@ -52,6 +55,23 @@ const Card = ({
             setLoading(false);
         }
     };
+
+    const handleAddTocart = async (e: React.MouseEvent) => {
+        e.stopPropagation();
+
+        setLoading(true);
+
+        try {
+            await addToCart(id, variationName);
+            setAddCart(true);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
 
     return (
         <div
@@ -81,8 +101,8 @@ const Card = ({
                 >
                     <Heart
                         className={`w-5 h-5 transition-colors duration-300 ${liked
-                                ? "text-rose-500 fill-rose-500"
-                                : "text-slate-400 group-hover:text-slate-600"
+                            ? "text-rose-500 fill-rose-500"
+                            : "text-slate-400 group-hover:text-slate-600"
                             }`}
                     />
                 </button>
@@ -102,9 +122,9 @@ const Card = ({
                             {Array.from({ length: 5 }).map((_, i) => (
                                 <Star
                                     key={i}
-                                    className={`w-3.5 h-3.5 ${i <Math.floor(Number(ratingAverage))
-                                            ? "text-amber-400 fill-amber-400"
-                                            : "text-slate-200"
+                                    className={`w-3.5 h-3.5 ${i < Math.floor(Number(ratingAverage))
+                                        ? "text-amber-400 fill-amber-400"
+                                        : "text-slate-200"
                                         }`}
                                 />
                             ))}
@@ -135,8 +155,8 @@ const Card = ({
 
                     <div
                         className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-widest ${stockQuantity > 0
-                                ? "bg-emerald-50 text-emerald-600"
-                                : "bg-rose-50 text-rose-600"
+                            ? "bg-emerald-50 text-emerald-600"
+                            : "bg-rose-50 text-rose-600"
                             }`}
                     >
                         {stockQuantity > 0 ? "In Stock" : "Sold Out"}
@@ -146,14 +166,12 @@ const Card = ({
                 {/* Elegant Add to Cart Action */}
                 <div className="mt-4 overflow-hidden rounded-xl">
                     <Button
-                        btnTxt="Quick Add"
+                        btnTxt={!addCart ? "Quick Add" : "View in Cart"}
+                        onClick={handleAddTocart}
                         className="w-full px-5 py-3 text-sm font-bold transition-all duration-300 transform translate-y-1 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 hover:brightness-110 active:scale-95"
                         style={{
                             backgroundColor: "var(--cta)",
                             color: "#fff",
-                        }}
-                        onClick={(e) => {
-                            e.stopPropagation();
                         }}
                     />
                 </div>

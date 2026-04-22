@@ -5,6 +5,9 @@ import type { CardProps } from "./components/Card";
 import { useSearchParams } from "react-router-dom";
 import api from "../../api/api";
 
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
 const Home = () => {
     const [cards, setCards] = useState<CardProps[]>([]);
     const [loading, setLoading] = useState(true);
@@ -45,14 +48,15 @@ const Home = () => {
         : cards;
 
     return (
-        <main className="max-w-7xl mx-auto px-6 py-10">
+        <main className="px-6 py-10 mx-auto max-w-7xl">
+
             {/* Page Header */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div className="flex flex-col justify-between gap-6 mb-12 md:flex-row md:items-end">
                 <div className="flex flex-col gap-2">
                     <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
                         {query ? `Search results for "${query}"` : "Discover our collection"}
                     </h1>
-                    <p className="text-slate-500 text-sm max-w-lg">
+                    <p className="max-w-lg text-sm text-slate-500">
                         Explore the latest arrivals and curated electronics, fashion, and lifestyle essentials.
                     </p>
                 </div>
@@ -61,44 +65,27 @@ const Home = () => {
                     <span>Products found</span>
                 </div>
             </div>
-    
-            {loading ? (
-                <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+
+            {loading || filteredCards.length === 0? (
+                <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                     {[...Array(8)].map((_, i) => (
-                        <div key={i} className="animate-pulse flex flex-col gap-4">
-                            <div className="aspect-[4/5] bg-slate-100 rounded-3xl" />
-                            <div className="h-4 bg-slate-100 rounded-lg w-3/4" />
-                            <div className="h-4 bg-slate-100 rounded-lg w-1/2" />
+                        <div key={i} className="flex flex-col gap-4">
+                            <Skeleton height={250} borderRadius={24} />
+                            <Skeleton height={16} width="75%" borderRadius={8} />
+                            <Skeleton height={16} width="50%" borderRadius={8} />
                         </div>
                     ))}
                 </div>
             ) : (
-                <>
-                    {/* Empty State */}
-                    {filteredCards.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center py-24 text-center">
-                            <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-6">
-                                <span className="text-4xl">🔍</span>
-                            </div>
-                            <h2 className="text-xl font-bold text-slate-900 mb-2">No products found</h2>
-                            <p className="text-slate-500 text-sm max-w-xs">
-                                We couldn't find anything matching your search. Try different keywords or browse our categories.
-                            </p>
-                        </div>
-                    ) : (
-                        <div className="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-                            {filteredCards.map((item) => (
-                                <Card
-                                    key={item.id}
-                                    {...item}
-                                />
-                            ))}
-                        </div>
-                    )}
-                </>
+                <div className="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4 md:grid-cols-3 ">
+                    {filteredCards.map((item) => (
+                        <Card key={item.id} {...item} />
+                    ))}
+                </div>
             )}
+
         </main>
     );
-};
+}
 
 export default Home;

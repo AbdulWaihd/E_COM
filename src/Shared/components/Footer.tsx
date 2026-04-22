@@ -19,13 +19,13 @@ const Footer = () => {
                 color: 'var(--text)'
             }}
         >
-            <div className="max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+            <div className="grid grid-cols-1 gap-12 px-6 py-16 mx-auto max-w-7xl md:grid-cols-2 lg:grid-cols-4">
                 {/* Company Info */}
                 <div className="flex flex-col gap-6">
                     <div className="flex items-center cursor-pointer" onClick={() => navigate('/')}>
                         <Logo width={160} />
                     </div>
-                    <p className="text-sm leading-relaxed text-slate-500 max-w-xs">
+                    <p className="max-w-xs text-sm leading-relaxed text-slate-500">
                         Elevate your shopping experience with curated collections and premium products delivered right to your door.
                     </p>
                     <div className="flex items-center gap-4">
@@ -35,15 +35,15 @@ const Footer = () => {
 
                 {/* Quick Links */}
                 <div className="flex flex-col gap-5">
-                    <h3 className="text-sm font-bold uppercase tracking-widest text-slate-900">
+                    <h3 className="text-sm font-bold tracking-widest uppercase text-slate-900">
                         Quick Links
                     </h3>
-                    <div className="flex flex-col gap-3 items-start">
+                    <div className="flex flex-col items-start gap-3">
                         {['Home', 'About', 'Cart', 'Add Product'].map((link) => (
                             <button
                                 key={link}
-                                onClick={() => navigate(`/${link.toLowerCase().replace(' ', '')}`)}
-                                className="text-sm text-slate-500 transition-colors hover:text-indigo-600 hover:translate-x-1 duration-200 transform"
+                                onClick={() => navigate(`/`)}
+                                className="text-sm transition-colors duration-200 transform text-slate-500 hover:text-indigo-600 hover:translate-x-1"
                             >
                                 {link}
                             </button>
@@ -53,14 +53,14 @@ const Footer = () => {
 
                 {/* Customer Service */}
                 <div className="flex flex-col gap-5">
-                    <h3 className="text-sm font-bold uppercase tracking-widest text-slate-900">
+                    <h3 className="text-sm font-bold tracking-widest uppercase text-slate-900">
                         Support
                     </h3>
-                    <div className="flex flex-col gap-3 items-start">
+                    <div className="flex flex-col items-start gap-3">
                         {['FAQ', 'Shipping Policy', 'Return Policy', 'Track Order'].map((item) => (
                             <button
                                 key={item}
-                                className="text-sm text-slate-500 transition-colors hover:text-indigo-600 hover:translate-x-1 duration-200 transform"
+                                className="text-sm transition-colors duration-200 transform text-slate-500 hover:text-indigo-600 hover:translate-x-1"
                             >
                                 {item}
                             </button>
@@ -70,16 +70,16 @@ const Footer = () => {
 
                 {/* Contact */}
                 <div className="flex flex-col gap-5">
-                    <h3 className="text-sm font-bold uppercase tracking-widest text-slate-900">
+                    <h3 className="text-sm font-bold tracking-widest uppercase text-slate-900">
                         Contact Us
                     </h3>
                     <div className="flex flex-col gap-4">
-                        <a href="mailto:sh.wahid2002@gmail.com" className="flex items-center gap-3 text-sm text-slate-500 hover:text-indigo-600 transition-colors">
-                            <div className="p-2 bg-slate-50 rounded-lg"><Mail size={16} /></div>
+                        <a href="mailto:sh.wahid2002@gmail.com" className="flex items-center gap-3 text-sm transition-colors text-slate-500 hover:text-indigo-600">
+                            <div className="p-2 rounded-lg bg-slate-50"><Mail size={16} /></div>
                             sh.wahid2002@gmail.com
                         </a>
-                        <a href="tel:+917006944631" className="flex items-center gap-3 text-sm text-slate-500 hover:text-indigo-600 transition-colors">
-                            <div className="p-2 bg-slate-50 rounded-lg"><Phone size={16} /></div>
+                        <a href="tel:+917006944631" className="flex items-center gap-3 text-sm transition-colors text-slate-500 hover:text-indigo-600">
+                            <div className="p-2 rounded-lg bg-slate-50"><Phone size={16} /></div>
                             +91 7006944631
                         </a>
                     </div>
@@ -88,11 +88,11 @@ const Footer = () => {
 
             {/* Bottom Bar */}
             <div className="border-t" style={{ borderColor: 'var(--border)' }}>
-                <div className="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-500">
+                <div className="flex flex-col items-center justify-between gap-4 px-6 py-8 mx-auto text-sm max-w-7xl md:flex-row text-slate-500">
                     <p>© 2026 eCOM Marketplace. Built with passion.</p>
                     <div className="flex items-center gap-8">
-                        <span className="cursor-pointer hover:text-indigo-600 transition-colors">Privacy Policy</span>
-                        <span className="cursor-pointer hover:text-indigo-600 transition-colors">Terms of Service</span>
+                        <span className="transition-colors cursor-pointer hover:text-indigo-600">Privacy Policy</span>
+                        <span className="transition-colors cursor-pointer hover:text-indigo-600">Terms of Service</span>
                         <span className="font-medium text-slate-900">Developed by Wahid</span>
                     </div>
                 </div>
