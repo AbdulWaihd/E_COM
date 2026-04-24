@@ -25,7 +25,8 @@ const Wishlist = () => {
         const fetchWishlist = async () => {
             try {
                 const response = await api.get('/cart/list');
-                setItems(response.data?.items?.data || []);
+                console.log(response)
+                setItems(response.data?.items|| []);
             } catch (error) {
                 console.error('Failed to fetch wishlist', error);
             } finally {
@@ -39,6 +40,7 @@ const Wishlist = () => {
     const handleRemove = async (id: number) => {
         try {
             await api.delete(`/api/wishList/RemoveItem?id=${id}`);
+            
             setItems(currItems => currItems.filter(item => item.id !== id));
         } catch (error) {
             console.error('Failed to remove item', error);

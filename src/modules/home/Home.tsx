@@ -49,7 +49,6 @@ const Home = () => {
 
     return (
         <main className="px-6 py-10 mx-auto max-w-7xl">
-
             {/* Page Header */}
             <div className="flex flex-col justify-between gap-6 mb-12 md:flex-row md:items-end">
                 <div className="flex flex-col gap-2">

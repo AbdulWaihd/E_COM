@@ -1,25 +1,41 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../api/api";
+import { ArrowLeft, X } from "lucide-react";
 
-import Skeleton from "react-loading-skeleton";
-import Button from '../../Shared/components/Button';
-import { ShoppingCart, Trash2, Heart } from 'lucide-react';
+import CalculatedAmount from "./../../utils/CalculatedAmount";
 
 
-interface CartInterface {
+
+import updateCart from "../../utils/UpdateCart";
+interface CartItem {
     id: number;
     productId: number;
     quantity: number;
     productName: string;
     productImage: string;
-    // Fallback for types
     name?: string;
     image?: string;
+    calculatedProductPrice?: {
+        price: number;
+        totalString: string;
+    };
+}
+
+interface CartSummary {
+    items: CartItem[];
+    subTotal: number;
+    subTotalString: string;
+    discount: number;
+    discountString: string;
+    subTotalWithDiscount: number;
+    subTotalWithDiscountString: string;
+    couponCode: string | null;
 }
 
 const Cart = () => {
-    const [items, setItems] = useState<CartInterface[]>([]);
+    const [items, setItems] = useState<CartItem[]>([]);
+    const [summary, setSummary] = useState<CartSummary | null>(null);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
@@ -27,7 +43,7 @@ const Cart = () => {
         const fetchCart = async () => {
             try {
                 const res = await api.get("/cart/list");
-                console.log(res.data);
+                setSummary(res.data);
                 setItems(res.data?.items || []);
             } catch (error) {
                 console.log(error);
@@ -35,165 +51,155 @@ const Cart = () => {
                 setLoading(false);
             }
         };
-
         fetchCart();
     }, []);
 
     const handleRemove = async (id: number) => {
         try {
-            await api.delete("/cart/remove-item");
-            setItems((currItems) => currItems.filter((item) => item.id !== id));
+            await api.post("/cart/remove-item", id, {
+    headers: { "Content-Type": "application/json-patch+json" }
+});
+            setItems((curr) => curr.filter((item) => item.id !== id));
         } catch (error) {
             console.log(error);
         }
     };
 
+    const handleQtyChange = async (id: number, delta: number) => {
+        const item = items.find(i => i.id === id);
+        if (!item) return;
+
+        const newQuantity = Math.max(1, item.quantity + delta);
+        setItems(curr => curr.map(i => i.id === id ? { ...i, quantity: newQuantity } : i));
+
+        const result = await updateCart(id, newQuantity);
+        if (result) {
+            setSummary(result.summary);
+            setItems(result.items);
+        }
+    };
+
     return (
-        <>
-            <main className="px-6 py-10 mx-auto">
+        <main className="max-w-5xl min-h-screen px-6 py-12 mx-auto">
+            <div className="overflow-hidden bg-white shadow-sm rounded-3xl">
 
-                {/* Cart Title */}
-                <div className="flex flex-col justify-between gap-6 mb-12 md:flex-row md:items-end">
-                    <div className="flex flex-col gap-2">
-                        <h1
-                            className="text-3xl font-extrabold tracking-tight sm:text-4xl"
-                            style={{ color: "var(--text)" }}
-                        >
-                            Cart Items
-                        </h1>
-                        <p
-                            className="max-w-lg text-sm"
-                            style={{ color: "var(--text-muted)" }}
-                        >
-                            Add items here.
-                        </p>
-                    </div>
-
-                    <div
-                        className="flex items-center gap-2 text-sm font-semibold"
-                        style={{ color: "var(--text-muted)" }}
+                {/* Header */}
+                <div className="flex items-center justify-between px-10 pt-10 pb-6">
+                    <h1 className="text-4xl font-black tracking-tight text-gray-900">My Cart</h1>
+                    <button
+                        onClick={() => navigate("/")}
+                        className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-700 sm: hidden transition-colors"
                     >
-                        <ShoppingCart size={16} style={{ color: "var(--text)" }} />
-                        <span style={{ color: "var(--text)" }}>{items.length}</span>
-                        <span>{items.length === 1 ? "Item in cart" : "Items in cart"}</span>
-                    </div>
+                        <ArrowLeft size={14} />
+                        Continue shopping
+                    </button>
                 </div>
 
-                {loading ? (
-                    /* Loading Skeleton */
-                    <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-                        {[...Array(4)].map((_, i) => (
-                            <div key={i} className="flex flex-col gap-4">
-                                <Skeleton height={250} borderRadius={24} />
-                                <Skeleton height={16} width="75%" borderRadius={8} />
-                                <Skeleton height={16} width="50%" borderRadius={8} />
+                {/* Empty State */}
+                
+                {!loading && items.length === 0 && (
+                    <div className="flex flex-col items-center justify-center px-10 text-center py-28">
+                        <p className="mb-6 text-lg text-gray-400">Your cart is empty.</p>
+                        <button
+                            onClick={() => navigate("/")}
+                            className="px-8 py-3 text-sm font-bold text-white transition-opacity rounded-lg hover:opacity-90"
+                            style={{ backgroundColor: "#ef4444" }}
+                        >
+                            Browse Products
+                        </button>
+                    </div>
+                )}
+
+                {/* Table */}
+                {items.length > 0 && (
+                    <>
+                        {/* Column Headers */}
+                        
+                        <div className="grid grid-cols-[2fr_1fr_1fr_1fr_auto] gap-4 px-10 py-3 text-xs font-semibold text-gray-400 uppercase tracking-widest border-b border-gray-100">
+                            <span>Product</span>
+                            <span>Price</span>
+                            <span>Qty</span>
+                            <span>Total</span>
+                            <span />
+                        </div>
+
+                        {/* Items */}
+                        {items.map((item) => (
+                            <div
+                                key={item.id}
+                                className="grid grid-cols-[2fr_1fr_1fr_1fr_auto] gap-4 items-center px-10 py-6 border-b border-gray-50 hover:bg-gray-50/60 transition-colors"
+                            >
+                                {/* Product */}
+                                <div className="flex flex-col items-center gap-4 sm:flex-row">
+                                    <div className="flex-shrink-0 w-16 h-16 overflow-hidden bg-gray-100 rounded-xl">
+                                        <img
+                                            src={item.productImage || item.image || "/placeholder.png"}
+                                            alt={item.productName || item.name}
+                                            className="object-cover w-full h-full"
+                                        />
+                                    </div>
+                                    <div>
+                                        <p
+                                            className="text-sm font-semibold text-gray-800 cursor-pointer hover:underline sm:text-xs"
+                                            onClick={() => navigate(`/product/${item.productId}`)}
+                                        >
+                                            {item.productName || item.name}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Price */}
+                                <span className="text-sm font-medium text-gray-700">
+                                    ₹{item.calculatedProductPrice?.price ?? "—"}
+                                </span>
+
+                                {/* Qty Stepper */}
+                                <div className="flex items-center gap-1 flex-cols xs:flex-row">
+                                    <button
+                                        onClick={() => handleQtyChange(item.id, -1)}
+                                        className="flex items-center justify-center w-6 h-6 text-sm text-gray-500 transition-colors border border-gray-200 rounded-full hover:border-gray-400"
+                                    >
+                                        −
+                                    </button>
+                                    <span className="w-4 text-sm font-semibold text-center text-gray-800">
+                                        {item.quantity}
+                                    </span>
+                                    <button
+                                        onClick={() => handleQtyChange(item.id, 1)}
+                                        className="flex items-center justify-center w-6 h-6 text-sm text-gray-500 transition-colors border border-gray-200 rounded-full hover:border-gray-400"
+                                    >
+                                        +
+                                    </button>
+                                </div>
+                                {/* Total */}
+
+                                <span className="text-sm font-bold text-gray-800">
+                                    {item.calculatedProductPrice
+                                        ? `₹${(item.calculatedProductPrice.price * item.quantity).toFixed(2)}`
+                                        : "—"}
+                                </span>
+
+                                {/* Remove */}
+                                <button
+                                    onClick={() => handleRemove(item.id)}
+                                    className="text-gray-300 transition-colors hover:text-red-400"
+                                >
+                                    <X size={16} />
+                                </button>
                             </div>
                         ))}
-                    </div>
-                ) : (
-                    <>
-                        {/* Empty State */}
-                        {items.length === 0 ? (
-                            <div className="flex flex-col items-center justify-center py-24 text-center">
-                                <div className="flex items-center justify-center w-20 h-20 mb-6 rounded-full bg-slate-50">
-                                    <ShoppingCart size={32} className="text-slate-300" />
-                                </div>
-                                <h2 className="mb-2 text-xl font-bold" style={{ color: 'var(--text)' }}>
-                                    Your Cart is empty
-                                </h2>
-                                <p className="max-w-xs mb-8 text-sm" style={{ color: 'var(--text-muted)' }}>
-                                    Start adding items in cart by clicking the Quick add or Add to Cart option on any product.
-                                </p>
-                                <Button
-                                    btnTxt="Browse Products"
-                                    onClick={() => navigate('/')}
-                                    className="px-8 py-3 font-bold shadow-lg !rounded-2xl"
-                                    style={{
-                                        backgroundColor: 'var(--btn-primary)',
-                                        color: 'var(--btn-primary-text)',
-                                    }}
-                                />
-                            </div>
-                        ) : (
-                            /* cart Grid */
-                            <div className="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-                                {items.map(item => (
-                                    <div
-                                        key={item.productId}
-                                        onClick={() => navigate(`/product/${item.productId}`)}
-                                        className="relative flex flex-col overflow-hidden transition-all duration-500 ease-out cursor-pointer group rounded-2xl hover:-translate-y-1 hover:shadow-2xl"
-                                        style={{
-                                            backgroundColor: 'var(--surface)',
-                                            boxShadow: 'var(--card-shadow)',
-                                        }}
-                                    >
-                                        {/* Image */}
-                                        <div className="relative w-full overflow-hidden aspect-square bg-slate-100">
-                                            <img
-                                                src={item.productImage || item.image || '/placeholder.png'}
-                                                alt={item.productName || item.name}
-                                                className="object-cover w-full h-full transition-transform duration-700 ease-in-out group-hover:scale-110"
-                                            />
 
-                                            {/* Hover Overlay */}
-                                            <div className="absolute inset-0 transition-opacity duration-300 opacity-0 bg-black/5 group-hover:opacity-100" />
+                        {/* Bottom Panel */}
+                        <div className="flex justify-end px-10 py-8 bg-gray-50 rounded-b-3xl">
+                            <CalculatedAmount summary={summary} loading={loading} />
+                        </div>
+                        {/* Order Summary */}
 
-                                            {/* Remove Button */}
-                                            <button
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    handleRemove(item.id);
-                                                }}
-                                                className="absolute z-10 p-2 transition-all duration-300 scale-90 translate-x-4 rounded-full shadow-lg opacity-0 bg-white/90 backdrop-blur-sm top-3 right-3 group-hover:opacity-100 group-hover:translate-x-0 group-hover:scale-100 hover:bg-rose-50"
-                                            >
-                                                <Trash2 className="w-5 h-5 transition-colors text-slate-400 hover:text-rose-500" />
-                                            </button>
 
-                                            {/* Liked Heart Badge */}
-
-                                        </div>
-
-                                        {/* Content */}
-                                        <div className="flex flex-col flex-grow gap-2.5 p-5">
-                                            <h2
-                                                className="text-base font-semibold leading-tight tracking-tight line-clamp-2"
-                                                style={{ color: 'var(--text)' }}
-                                            >
-                                                {item.productName || item.name}
-                                            </h2>
-
-                                            {/* Add to Cart */}
-                                            <div className="mt-4 overflow-hidden rounded-xl">
-                                                <Button
-                                                    className="flex items-center justify-center w-full gap-2 px-5 text-sm font-bold transition-all duration-300 transform hover:brightness-110 "
-                                                    style={{
-                                                        backgroundColor: 'var(--cta)',
-                                                        color: '#fff',
-                                                    }}
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                    }}
-                                                >
-                                                    <ShoppingCart size={16} />
-                                                    Buy Now
-                                                </Button>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                ))}
-                            </div>
-
-                        )
-
-                        }
                     </>
-                )
-                }
-    
-
-            </main>
-        </>
+                )}
+            </div>
+        </main>
     );
 };
 
