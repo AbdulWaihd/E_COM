@@ -9,6 +9,8 @@ import LogIn from './auth/components/LogIn'
 import ProductDetails from './modules/products/ProductDetails'
 import Wishlist from './modules/wishlist/Wishlist'
 import Cart from './modules/cart/Cart'
+import OtpVerification from "./modules/forgotpassword/OtpVerification"
+import Forgotpassword from './modules/forgotpassword/Forgotpassword'
 import { ProtectedRoutes } from './routes/ProtectedRoutes'
 import { PublicRoutes } from './routes/PublicRoutes'
 function App() {
@@ -20,6 +22,8 @@ function App() {
             <Route element={<PublicRoutes />}>
               <Route path="/signup" element={<SignUp />} />
               <Route path="/login" element={<LogIn />} />
+              <Route path="/forgotpassword" element={<Forgotpassword/>}/>
+              <Route path='/otp' element={<OtpVerification/>}/>
           </Route>
 
             <Route element={<ProtectedRoutes />}>

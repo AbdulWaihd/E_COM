@@ -3,11 +3,9 @@ import { useNavigate } from "react-router-dom";
 import api from "../../api/api";
 import { ArrowLeft, X } from "lucide-react";
 
-import CalculatedAmount from "./../../utils/CalculatedAmount";
-
-
-
+// import CalculatedAmount from "../cart/CalculatedAmount";
 import updateCart from "../../utils/UpdateCart";
+
 interface CartItem {
     id: number;
     productId: number;
@@ -190,12 +188,10 @@ const Cart = () => {
                         ))}
 
                         {/* Bottom Panel */}
-                        <div className="flex justify-end px-10 py-8 bg-gray-50 rounded-b-3xl">
+                        {/* <div className="flex justify-end px-10 py-8 bg-gray-50 rounded-b-3xl">
                             <CalculatedAmount summary={summary} loading={loading} />
-                        </div>
+                        </div> */}
                         {/* Order Summary */}
-
-
                     </>
                 )}
             </div>

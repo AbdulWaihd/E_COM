@@ -116,6 +116,15 @@ const LogIn = () => {
 
 
                     />
+                    
+                    <Button
+                    btnTxt="Forgot Password"
+                    type="button"
+                    onClick={()=> navigate("/forgotpassword")}
+                    className="text-gray-500 -translate-y-1/2 f ext-sm right-2 top-1/2"
+                    
+                    />
+                        
 
                     <Button
                         btnTxt="Log In"
